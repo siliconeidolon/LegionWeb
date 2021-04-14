@@ -52,6 +52,8 @@ const userScore_span = document.getElementById("user-score");
 const computerScore_span = document.getElementById("comp-score");
 const result_p = document.querySelector(".result > p");
 
+const diceContainer = document.getElementById("dice-container");
+
 const dieOne_div = document.getElementById("die-1");
 let dieOne_img = document.getElementById("dieOnePic");
 
@@ -228,11 +230,8 @@ function rollDice() {
   for(let i = 0; i < dieArray.length; i++) {
     if(dieArray[i].getIsKeptThisTurn()) {
       dieArray[i].setIsSaved(true);
-      dieDivArray[i].removeEventListener('click', keepDie);
     }
   }
-
-
 
   for(let i = 0; i < dieArray.length; i++) {
     const randomNumber = Math.floor(Math.random() * 6);
@@ -276,9 +275,14 @@ function rollDice() {
 }
 
 function keepDie(dieDiv, imageNumber) {
-  console.log(dieDiv);
+  if(dieDiv.getIsSaved()) {
+    // Early return - if the die is saved already, don't do anything
+    // This seems to be the same desired behaviour as removing the event listener?
+    return
+  }
+
   dieDiv.setIsKeptThisTurn(!dieDiv.getIsKeptThisTurn());
-  if(dieDiv.getIsKeptThisTurn() === true) {
+  if (dieDiv.getIsKeptThisTurn() === true) {
     dieImageArray[imageNumber].classList.add('green-glow');
     keptDie++;
   } else if(dieDiv.getIsSaved() === false){
@@ -294,11 +298,25 @@ function keepDie(dieDiv, imageNumber) {
   }
 }
 
+function dieClickHandler(e) {
+  // Check the html data-idx attribute to get the index
+  const dieIdx = e.target.dataset.idx
+  console.log(dieIdx)
+  keepDie(dieArray[dieIdx], dieIdx)
+}
+
 function main() {
   roll_button.addEventListener('click', () => rollDice());
-  for(let i = 0; i < 6; i++) {
-    dieDivArray[i].addEventListener('click', keepDie.bind(null, dieArray[i], i));
-  }
+
+  // Adds a listener to the die container
+  // When a click is invoked on one of its children, eg: a die,
+  // then the event 'bubbles' up and the click target is accessible.
+  // This means you only need to add one event listener
+  diceContainer.addEventListener('click', dieClickHandler)
+
+  // for(let i = 0; i < 6; i++) {
+  //   dieDivArray[i].addEventListener('click', () => keepDie(dieArray[i], i));
+  // }
 }
 
 main();
