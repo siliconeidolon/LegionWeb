@@ -228,15 +228,11 @@ function rollDice() {
   for(let i = 0; i < dieArray.length; i++) {
     if(dieArray[i].getIsKeptThisTurn()) {
       dieArray[i].setIsSaved(true);
-      dieDivArray[i].removeEventListener('click', () => keepDie(dieDiv, imageNumber));
+      dieDivArray[i].removeEventListener('click', keepDie);
     }
   }
 
-  for(let i = 0; i < dieArray.length; i++) {
-    if(dieArray[i].getIsSaved() === true) {
-      dieDivArray[i].removeEventListener('click', () => keepDie(dieDiv, imageNumber));
-    }
-  }
+
 
   for(let i = 0; i < dieArray.length; i++) {
     const randomNumber = Math.floor(Math.random() * 6);
@@ -301,7 +297,7 @@ function keepDie(dieDiv, imageNumber) {
 function main() {
   roll_button.addEventListener('click', () => rollDice());
   for(let i = 0; i < 6; i++) {
-    dieDivArray[i].addEventListener('click', () => keepDie(dieArray[i], i));
+    dieDivArray[i].addEventListener('click', keepDie.bind(null, dieArray[i], i));
   }
 }
 
