@@ -282,10 +282,10 @@ function keepDie(dieDiv, imageNumber) {
   }
 
   dieDiv.setIsKeptThisTurn(!dieDiv.getIsKeptThisTurn());
-  if (dieDiv.getIsKeptThisTurn() === true) {
+  if (dieDiv.getIsKeptThisTurn()) {
     dieImageArray[imageNumber].classList.add('green-glow');
     keptDie++;
-  } else if(dieDiv.getIsSaved() === false){
+  } else if(!dieDiv.getIsSaved()){
     dieImageArray[imageNumber].classList.remove('green-glow');
     keptDie--;
   }
