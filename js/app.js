@@ -299,6 +299,14 @@ function keepDie(dieDiv, imageNumber) {
 }
 
 function dieClickHandler(e) {
+
+  /*
+    Alternative cleverer-but-brittle approach for getting the index:
+    if you know the DOM structure, then you can figure out which child of the container has been clicked...
+  */
+  const el = e.target.parentElement
+  const index = Array.from(diceContainer.children).indexOf(el)
+
   // Check the html data-idx attribute to get the index
   const dieIdx = e.target.dataset.idx
   console.log(dieIdx)
