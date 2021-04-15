@@ -283,6 +283,8 @@ function keepDie(dieDiv, imageNumber) {
 
   dieDiv.setIsKeptThisTurn(!dieDiv.getIsKeptThisTurn());
   if (dieDiv.getIsKeptThisTurn()) {
+  dieDiv.setIsKeptThisTurn(!dieDiv.getIsKeptThisTurn());
+  if(dieDiv.getIsKeptThisTurn()) {
     dieImageArray[imageNumber].classList.add('green-glow');
     keptDie++;
   } else if(!dieDiv.getIsSaved()){
